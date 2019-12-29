@@ -51,7 +51,7 @@ module.exports = {
   // tweak internal webpack configuration.
   // see https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
   // 如果你不需要使用eslint，把lintOnSave设为false即可
-  lintOnSave: true,
+  lintOnSave: false,
   chainWebpack: config => {
     config.resolve.alias
       .set('@', resolve('src/manage')) // key,value自行定义，比如.set('@@', resolve('src/components'))
@@ -74,12 +74,22 @@ module.exports = {
   // 这里写你调用接口的基础路径，来解决跨域，如果设置了代理，那你本地开发环境的axios的baseUrl要写为 '' ，即空字符串
   devServer: {
     overlay: {
-      warnings: true,
-      errors: true
+      warnings: false,
+      errors: false
     },
     proxy: {
       '/api': {
         target: 'http://movie.ihaoze.cn/'
+      },
+      '/manage': {     //这里最好有一个 /
+        target: 'http://47.111.232.212:9090',  // 后台接口域名
+        changeOrigin: true,  //是否跨域
+        pathRewrite:{
+          '^/manage':''
+        }
+      },
+      '/mock': {
+        target: 'https://www.easy-mock.com/mock/5add9213ce4d0e69998a6f51/iview-admin/'
       }
     }
   }

@@ -6,7 +6,7 @@ export const login = ({ userName, password }) => {
     password
   }
   return axios.request({
-    url: 'login',
+    url: '/mock/login',
     data,
     method: 'post'
   })
@@ -14,7 +14,7 @@ export const login = ({ userName, password }) => {
 
 export const getUserInfo = (token) => {
   return axios.request({
-    url: 'get_info',
+    url: '/mock/get_info',
     params: {
       token
     },
@@ -38,7 +38,7 @@ export const getUnreadCount = () => {
 
 export const getMessage = () => {
   return axios.request({
-    url: 'message/init',
+    url: '/mock/message/init',
     method: 'get'
   })
 }
@@ -55,7 +55,7 @@ export const getContentByMsgId = msg_id => {
 
 export const hasRead = msg_id => {
   return axios.request({
-    url: 'message/has_read',
+    url: '/mock/message/has_read',
     method: 'post',
     data: {
       msg_id
@@ -75,7 +75,7 @@ export const removeReaded = msg_id => {
 
 export const restoreTrash = msg_id => {
   return axios.request({
-    url: 'message/restore',
+    url: '/mock/message/restore',
     method: 'post',
     data: {
       msg_id

@@ -4,18 +4,14 @@
       <side-menu accordion ref="sideMenu" :active-name="$route.name" :collapsed="collapsed" @on-select="turnToPage" :menu-list="menuList">
         <!-- 需要放在菜单上面的内容，如Logo，写在side-menu标签内部，如下 -->
         <div class="logo-con">
-          <img v-show="!collapsed" :src="maxLogo" key="max-logo" />
-          <img v-show="collapsed" :src="minLogo" key="min-logo" />
+          后台管理
         </div>
       </side-menu>
     </Sider>
     <Layout>
       <Header class="header-con">
         <header-bar :collapsed="collapsed" @on-coll-change="handleCollapsedChange">
-          <user :message-unread-count="unreadCount" :user-avatar="userAvatar"/>
-          <language v-if="$config.useI18n" @on-lang-change="setLocal" style="margin-right: 10px;" :lang="local"/>
-          <error-store v-if="$config.plugin['error-store'] && $config.plugin['error-store'].showInHeader" :has-read="hasReadErrorPage" :count="errorCount"></error-store>
-          <fullscreen v-model="isFullscreen" style="margin-right: 10px;"/>
+          <user :user-avatar="userAvatar"/>
         </header-bar>
       </Header>
       <Content class="main-content-con">
@@ -40,39 +36,25 @@ import HeaderBar from './components/header-bar/index'
 import TagsNav from './components/tags-nav/index'
 import User from './components/user/index'
 import ABackTop from './components/a-back-top/index'
-import Fullscreen from './components/fullscreen/index'
-import Language from './components/language/index'
-import ErrorStore from './components/error-store/index'
-import { mapMutations, mapActions, mapGetters } from 'vuex'
+import { mapMutations, mapActions } from 'vuex'
 import { getNewTagList, routeEqual } from '@/libs/util'
 import routers from '@/router/routers'
-import minLogo from '@/assets/images/logo-min.jpg'
-import maxLogo from '@/assets/images/logo.jpg'
 import './main.less'
 export default {
   name: 'Main',
   components: {
     SideMenu,
     HeaderBar,
-    Language,
     TagsNav,
-    Fullscreen,
-    ErrorStore,
     User,
     ABackTop
   },
   data () {
     return {
-      collapsed: false,
-      minLogo,
-      maxLogo,
-      isFullscreen: false
+      collapsed: false
     }
   },
   computed: {
-    ...mapGetters([
-      'errorCount'
-    ]),
     tagNavList () {
       return this.$store.state.app.tagNavList
     },
@@ -80,7 +62,7 @@ export default {
       return this.$store.state.app.tagRouter
     },
     userAvatar () {
-      return this.$store.state.user.avatarImgPath
+      return this.$store.state.user.userName
     },
     cacheList () {
       const list = ['ParentView', ...this.tagNavList.length ? this.tagNavList.filter(item => !(item.meta && item.meta.notCache)).map(item => item.name) : []]
@@ -91,12 +73,6 @@ export default {
     },
     local () {
       return this.$store.state.app.local
-    },
-    hasReadErrorPage () {
-      return this.$store.state.app.hasReadErrorPage
-    },
-    unreadCount () {
-      return this.$store.state.user.unreadCount
     }
   },
   methods: {
@@ -109,8 +85,7 @@ export default {
       'closeTag'
     ]),
     ...mapActions([
-      'handleLogin',
-      'getUnreadMessageCount'
+      'handleLogin'
     ]),
     turnToPage (route) {
       let { name, params, query } = {}
@@ -180,8 +155,6 @@ export default {
         name: this.$config.homeName
       })
     }
-    // 获取未读消息条数
-    this.getUnreadMessageCount()
   }
 }
 </script>

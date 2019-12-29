@@ -51,50 +51,21 @@ export default [
     ]
   },
   {
-    path: '',
-    name: 'doc',
-    meta: {
-      title: '文档',
-      href: 'https://lison16.github.io/iview-admin-doc/#/',
-      icon: 'ios-book'
-    }
-  },
-  {
-    path: '/join',
-    name: 'join',
-    component: Main,
+    path: '/movie_type',
+    name: 'movie_type',
     meta: {
       hideInBread: true
     },
-    children: [
-      {
-        path: 'join_page',
-        name: 'join_page',
-        meta: {
-          icon: '_qq',
-          title: 'QQ群'
-        },
-        component: () => import('@/view/join-page.vue')
-      }
-    ]
-  },
-  {
-    path: '/message',
-    name: 'message',
     component: Main,
-    meta: {
-      hideInBread: true,
-      hideInMenu: true
-    },
     children: [
       {
-        path: 'message_page',
-        name: 'message_page',
+        path: 'movie_type_page',
+        name: 'movie_type_page',
         meta: {
-          icon: 'md-notifications',
-          title: '消息中心'
+          icon: 'ios-aperture',
+          title: '分类管理'
         },
-        component: () => import('@/view/single-page/message/index.vue')
+        component: () => import('@/view/movies/movie-type.vue')
       }
     ]
   },
@@ -103,7 +74,7 @@ export default [
     name: 'components',
     meta: {
       icon: 'logo-buffer',
-      title: '组件'
+      title: '组件123'
     },
     component: Main,
     children: [
@@ -296,25 +267,6 @@ export default [
     ]
   },
   {
-    path: '/i18n',
-    name: 'i18n',
-    meta: {
-      hideInBread: true
-    },
-    component: Main,
-    children: [
-      {
-        path: 'i18n_page',
-        name: 'i18n_page',
-        meta: {
-          icon: 'md-planet',
-          title: 'i18n - {{ i18n_page }}'
-        },
-        component: () => import('@/view/i18n/i18n-page.vue')
-      }
-    ]
-  },
-  {
     path: '/error_store',
     name: 'error_store',
     meta: {
@@ -347,9 +299,9 @@ export default [
         name: 'error_logger_page',
         meta: {
           icon: 'ios-bug',
-          title: '错误收集'
+          title: '分类管理'
         },
-        component: () => import('@/view/single-page/error-logger.vue')
+        component: () => import('@/view/movies/movie-type.vue')
       }
     ]
   },
@@ -366,9 +318,9 @@ export default [
         name: 'directive_page',
         meta: {
           icon: 'ios-navigate',
-          title: '指令'
+          title: '分类管理'
         },
-        component: () => import('@/view/directive/directive.vue')
+        component: () => import('@/view/movies/movie-type.vue')
       }
     ]
   },
