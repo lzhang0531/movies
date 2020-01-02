@@ -8,25 +8,19 @@ export const getCategoryPage = (access) => {
     params: access,
   })
 }
+export const getCategoryList = () => {
+  return axios.request({
+    url: '/manage/category/list',
+    method: 'get'
+  })
+}
 
 export const addCategory = (access) => {
-/*  return axios.request({
-    url: '/manage/category/add',
-    method: 'POST',
-    params: access,
-    headers: { 'Content-Type': 'application/json' }
-  })*/
   return axiosOrigin.post('/manage/category/add',access)
 }
 
 export const updateCategory = (access) => {
-  /*return axios.request({
-    url: '/manage/category/update',
-    method: 'PUT',
-    params: access,
-  })*/
   return axiosOrigin.put('/manage/category/update',access)
-
 }
 
 export const deleteCategory = (id) => {
@@ -35,6 +29,43 @@ export const deleteCategory = (id) => {
     method: 'DELETE',
   })
 }
+
+export const getVideoPage = (access) => {
+  return axios.request({
+    url: '/manage/video/page',
+    method: 'get',
+    params: access,
+  })
+}
+
+export const addVideo = (access) => {
+  return axiosOrigin.post('/manage/video/save',access)
+}
+
+export const updateVideo = (access) => {
+  return axiosOrigin.put('/manage/video/update',access)
+}
+
+export const stickyVideo = (access) => {
+  return axiosOrigin.put('/manage/video/sticky',access)
+}
+export const cancelStickyVideo = (access) => {
+  return axiosOrigin.put('/manage/video/cancel-sticky',access)
+}
+
+export const deleteVideo = (id) => {
+  return axios.request({
+    url: '/manage/video/'+id,
+    method: 'DELETE',
+  })
+}
+
+
+
+
+
+
+
 
 export const getDragList = () => {
   return axios.request({
@@ -75,6 +106,13 @@ export const getOrgData = () => {
 export const getTreeSelectData = () => {
   return axios.request({
     url: '/mock/get_tree_select_data',
+    method: 'get'
+  })
+}
+
+export const getTableData = () => {
+  return axios.request({
+    url: 'get_table_data',
     method: 'get'
   })
 }

@@ -88,6 +88,10 @@ module.exports = {
           '^/manage':''
         }
       },
+      '/file': {     //这里最好有一个 /
+        target: 'http://47.111.232.212',  // 后台接口域名
+        changeOrigin: true,  //是否跨域
+      },
       '/mock': {
         target: 'https://www.easy-mock.com/mock/5add9213ce4d0e69998a6f51/iview-admin/'
       }

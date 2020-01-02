@@ -1,5 +1,5 @@
 <template>
-  <Select v-model="selectVal" style="width:260px">
+  <Select v-model="selectVal" style="width:180px">
     <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
   </Select>
 </template>

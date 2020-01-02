@@ -1,12 +1,12 @@
 <template>
   <div>
     <div class="search-con search-con-top">
-      <span class="pd-6r">分类地区:</span>
-      <Select v-model="areaCode" style="width:260px" filterable clearable placeholder="全部地区">
-        <Option v-for="(key,item) in areaList" :value="item" :key="item">{{ key }}</Option>
+      <span class="pd-6r">地区:</span>
+      <Select v-model="areaCode" style="width:180px" filterable clearable placeholder="全部地区">
+        <Option v-for="(key,item) in areaList" :value=item :key=item>{{ key }}</Option>
       </Select>
       <Button @click="handleSearch" class="search-btn" type="primary">
-        <Icon type="search"/>&nbsp;&nbsp;搜索
+        搜索
       </Button>
     </div>
     <div class="body-box-shadow">
@@ -26,12 +26,12 @@
     </div>
     <Modal v-model="editModel" ref="editModel" title="分类维护" @on-ok="onModalSave" @on-visible-change="onVisibleChange" :mask-closable="false" :loading="true">
       <Form :model="modalData" :label-width="80" ref="editForm"  :rules="ruleValidate">
-        <FormItem label="分类名称" prop="categoryName">
-          <Input v-model="modalData.categoryName"  style="width:260px"></Input>
+        <FormItem label="分类名称" prop="categoryName" >
+          <Input v-model="modalData.categoryName"  style="width:180px"></Input>
         </FormItem>
-        <FormItem label="地区" prop="areaCode">
-          <Select v-model="modalData.areaCode" style="width:260px" filterable placeholder="请选择地区">
-            <Option v-for="(key,item) in areaList" :value="item" :key="item">{{ key }}</Option>
+        <FormItem label="地区" prop="areaCodes" >
+          <Select v-model="modalData.areaCodes" multiple style="width:180px" filterable placeholder="请选择地区">
+            <Option v-for="(key,item) in areaList" :value=item :key=item>{{ key }}</Option>
           </Select>
         </FormItem>
       </Form>
@@ -54,7 +54,7 @@
     data () {
       return {
         areaList:areaList,
-        areaCode: "",
+        areaCode: '',
         pageNum:1,
         pageSize:10,
         loading: false,
@@ -67,13 +67,16 @@
           },
           {title: '名称', key: 'categoryName'},
           {title: '所属地区', key: 'areaCode', render: (h, params) => {
-              return h('span', areaList[params.row.areaCode]);
+              const areaNames = [];
+              for( let i=0; i<params.row.areaCodes.length;i++){
+                areaNames.push(areaList[params.row.areaCodes[i]])
+              }
+              return h('span', areaNames.join(','));
             }},
           {title: '创建时间', key: 'createTime'},
           {
             title: '操作',
             key: 'action',
-            width: 150,
             align: 'center',
             render: (h, params) => {
               return h('div', [
@@ -88,7 +91,7 @@
                   on: {
                     click: () => {
                       this.modalData.id = params.row.id
-                      this.modalData.areaCode = params.row.areaCode.toString();
+                      this.modalData.areaCodes = params.row.areaCode.split(',');
                       this.modalData.categoryName = params.row.categoryName
                       console.log(this.modalData)
                       this.editModel = true
@@ -114,28 +117,27 @@
         editModel:false,
         modalData:{
           id:'',
-          areaCode:"1",
+          areaCodes:[],
           categoryName:'',
         },
         ruleValidate:{
           categoryName: [
             { required: true, message: '请输入地区名称', trigger: 'blur' }
           ],
-          areaCode: [
-            { required: true, message: '请选择地区', trigger: 'blur' }
+          areaCodes: [
+            { required: true, message: '请选择地区', trigger: 'blur',type: 'array'}
           ]
         }
       }
     },
     methods: {
       handleSearch () {
-        this.getTableDatas(
-          {
-            pageNum: this.pageNum,
-            pageSize: this.pageSize,
-            areaCode: this.areaCode,
-          },
-        )
+        let data = {
+          pageNum: this.pageNum,
+          pageSize: this.pageSize
+        }
+        this.areaCode && (data.areaCode = this.areaCode)
+        this.getTableDatas(data)
       },
       changePage (currPage, pagesize) {
         this.pageNum = currPage
@@ -164,7 +166,7 @@
           this.$refs.editForm.resetFields()
           this.modalData={
               id:'',
-              areaCode:"1",
+              areaCodes:[],
               categoryName:'',
           }
         }
@@ -183,7 +185,7 @@
               })
             }else {//新增
               addCategory({
-                areaCode:this.modalData.areaCode,
+                areaCodes:this.modalData.areaCodes,
                 categoryName:this.modalData.categoryName,
               }).then(res => {
                 this.$refs.editModel.buttonLoading = false
