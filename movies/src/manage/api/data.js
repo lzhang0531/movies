@@ -63,6 +63,40 @@ export const deleteVideo = (id) => {
 
 
 
+export const getUserPage = (access) => {
+  return axios.request({
+    url: '/manage/user/page',
+    method: 'get',
+    params: access,
+  })
+}
+export const setSale = (access) => {
+  return axiosOrigin.put('/manage/user/set-sale',access)
+}
+export const cancelSale = (access) => {
+  return axiosOrigin.put('/manage/user/cancel-sale',access)
+}
+export const openMember = (access) => {
+  return axiosOrigin.put('/manage/user/open-member',access)
+}
+export const closeMember= (access) => {
+  return axiosOrigin.put('/manage/user/close-member',access)
+}
+export const deleteUser = (id) => {
+  return axios.request({
+    url: '/manage/user/'+id,
+    method: 'DELETE',
+  })
+}
+
+
+
+
+
+
+
+
+
 
 
 

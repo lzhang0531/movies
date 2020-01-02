@@ -88,6 +88,25 @@ export default [
       }
     ]
   },
+  {
+    path: '/user_list',
+    name: 'user_list',
+    meta: {
+      hideInBread: true
+    },
+    component: Main,
+    children: [
+      {
+        path: 'user_list_page',
+        name: 'user_list_page',
+        meta: {
+          icon: 'md-contact',
+          title: '用户管理'
+        },
+        component: () => import('@/view/user/user-list.vue')
+      }
+    ]
+  },
 /*  {
     path: '/components',
     name: 'components',

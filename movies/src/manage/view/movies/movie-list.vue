@@ -38,7 +38,6 @@
 
 <script>
   import { TablePage } from '_c/tables'
-  import { AreaSelect } from '_c/base'
   import { getCategoryList,getVideoPage,deleteVideo,stickyVideo,cancelStickyVideo } from '@/api/data'
   import { areaList } from '@/libs/areaList'
   import MovieEdit from './movie-edit'
@@ -56,7 +55,6 @@
     name: 'movie_type_page',
     components: {
       TablePage,
-      AreaSelect,
       MovieEdit,
     },
     data () {
@@ -78,7 +76,7 @@
           },
           {title: '名称', key: 'name'},
           {title: '所属地区', key: 'areaCode', render: (h, params) => {
-              return h('span', areaLit[params.row.areaCode]);
+              return h('span', areaList[params.row.areaCode]);
             }
             },
           {title: '所属类型', key: 'categoryName'},
@@ -148,7 +146,6 @@
                     click: () => {
                       Object.assign(this.modalData,params.row)
                       this.modalData.areaCode = this.modalData.areaCode.toString()
-                      console.log(this.modalData)
                       this.editModel = true
                     },
                   },

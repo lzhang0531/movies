@@ -41,15 +41,13 @@
 
 <script>
   import { TablePage } from '_c/tables'
-  import { AreaSelect } from '_c/base'
   import { getCategoryPage,addCategory,updateCategory,deleteCategory } from '@/api/data'
   import { areaList } from '@/libs/areaList'
 
   export default {
     name: 'movie_type_page',
     components: {
-      TablePage,
-      AreaSelect,
+      TablePage
     },
     data () {
       return {

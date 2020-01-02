@@ -1,6 +1,5 @@
 <template>
   <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
-    {{JSON.stringify(formValidate)}}
     <FormItem label="电影名称" prop="name">
       <Input v-model="formValidate.name"></Input>
     </FormItem>
@@ -47,14 +46,17 @@
         <Button icon="ios-cloud-upload-outline">上传图片</Button>
       </Upload>
     </FormItem>
-    <FormItem label="视频" prop="thumbnailPath">
+    <FormItem label="视频" prop="videoPath">
       <Upload
         action="/manage/file/upload"
         :data="{
         categoryCode:formValidate.categoryCode,
         areaCode:formValidate.areaCode
         }"
-        :default-file-list="defaultList"
+        :default-file-list="formValidate.videoPath ? [{
+          'name': formValidate.videoPath,
+          'url': formValidate.videoPath,
+        }]: []"
         ref="video"
         :on-success="handleVideoSuccess"
         :accept="['MPEG','MPG','AVI','MOV','DAT','RM']"
@@ -101,7 +103,6 @@
       return {
         areaList: areaList,
         formValidate: this.value,
-        defaultList: [],
         videoUploadSuccess: true,
         ruleValidate: {
           name: [
@@ -124,7 +125,7 @@
             {required: true, message: '请选择是否付费', type: 'boolean', trigger: 'change'},
           ],
           categoryCode: [
-            {required: true, type: 'number', message: '请选择类型', trigger: 'change'},
+            {required: true, type: 'number', message: '请选择类型', trigger: 'blur'},
             // {required: true, type: 'array', min: 1, message: 'Choose at least one hobby', trigger: 'change'},
             // {type: 'array', max: 2, message: 'Choose two hobbies at best', trigger: 'change'},
           ],
@@ -190,10 +191,9 @@
       },
       onSave () {
         this.$refs.formValidate.validate((valid) => {
-          if (!this.videoUploadSuccess || !this.formValidate.videoPath) {
+          if (!this.videoUploadSuccess) {
             this.$Notice.warning({
-              title: '未检测到视频源',
-              desc:'请先选择视频，或等待视频上传完成'
+              title: '请先等待视频上传完成',
             })
             return false
           }
@@ -201,9 +201,9 @@
             if (this.formValidate.id) {//编辑
               updateVideo(this.formValidate).then(res => {
                 if (res.data.res === 0) {
-                  this.$Message.success('保存成功!')
+                  this.$parent.$parent.$Message.success('保存成功!')
                   this.$emit('saveSuccess')
-                  this.$parent.editModel = false
+                  this.$parent.$parent.editModel = false
                 } else {
                   this.$Notice.warning({
                     title: '保存失败',
@@ -214,9 +214,9 @@
             } else {//新增
               addVideo(this.formValidate).then(res => {
                 if (res.data.res === 0) {
-                  this.$Message.success('新增成功!')
+                  this.$parent.$parent.$Message.success('新增成功!')
                   this.$emit('saveSuccess')
-                  this.$parent.editModel = false
+                  this.$parent.$parent.editModel = false
                 } else {
                   this.$Notice.warning({
                     title: '新增失败',
@@ -230,15 +230,6 @@
           }
         })
       },
-    },
-    computed: {
-      defaultList () {
-        return this.formValidate.id ? [
-          {
-            name: this.formValidate.videoPath,
-            url: this.formValidate.videoPath,
-          }] : []
-      },
-    },
+    }
   }
 </script>
