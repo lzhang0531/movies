@@ -34,8 +34,8 @@
             :movie="movie"
             @select="gotoDetail"
           >
-            <img  :src="`/file/${movie.thumbnailPath}`" height="210px" >
-            <div class="title">{{movie.name}}435345fdgfdgfdgdgfdgfdgf搜索顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶</div>
+            <img :src="`/file/${movie.thumbnailPath}`" height="210px" >
+            <div class="title">{{movie.name}}</div>
           </div>
           <div class="pull-up-wrap">
             <p v-show="pullUpLoading">正在加载...</p>
@@ -165,7 +165,9 @@ export default {
     padding 10px 20px
     box-sizing: border-box
     border-bottom: 1px solid #e6e6e6
+    text-align:center
     .title
+      text-align:left
       color: #333
       font-size: 17px
       font-weight: 700
