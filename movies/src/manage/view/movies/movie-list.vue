@@ -85,7 +85,7 @@
           {title: '创建时间', key: 'createTime',width:185},
           {
             title: '操作',
-            width:200,
+            // width:200,
             key: 'action',
             fixed:'right',
             align: 'center',
@@ -93,32 +93,12 @@
               return h('div', [
                 h('Button', {
                   props: {
-                    type: 'primary',
-                    size: 'small',
-                  },
-                  style: {
-                    marginRight: '5px',
-                  },
-                  on: {
-                    click: () => {
-                      stickyVideo({id:params.row.id}).then(res => {
-                        if (res.data.res === 0) {
-                          this.$Message.success('置顶成功!');
-                          this.handleSearch()
-                        }else {
-                          this.$Message.success('置顶失败!');
-                        }
-                      })
-                    },
-                  },
-                }, '置顶'),
-                h('Button', {
-                  props: {
                     type: 'default',
                     size: 'small',
                   },
                   style: {
-                    marginRight: '5px',
+                    marginTop: '5px',
+                    display: params.row.stickyTime ? 'inline' :'none',
                   },
                   on: {
                     click: () => {
@@ -133,6 +113,28 @@
                     },
                   },
                 }, '取消置顶'),
+                h('Button', {
+                  props: {
+                    type: 'primary',
+                    size: 'small',
+                  },
+                  style: {
+                    marginRight: '5px',
+                    marginTop: '2px'
+                  },
+                  on: {
+                    click: () => {
+                      stickyVideo({id:params.row.id}).then(res => {
+                        if (res.data.res === 0) {
+                          this.$Message.success('置顶成功!');
+                          this.handleSearch()
+                        }else {
+                          this.$Message.success('置顶失败!');
+                        }
+                      })
+                    },
+                  },
+                }, '置顶'),
                 h('Button', {
                   props: {
                     type: 'success',

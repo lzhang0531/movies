@@ -4,26 +4,26 @@
       <span
         v-for="item in list"
         :key="item.id"
-        :class="{'active': cacheList.includes(item.categoryName)}"
+        :class="{'active': categoryCode == item.categoryCode}"
         class="item"
-        @click="selectItem(item.categoryName)"
+        @click="selectItem(item.categoryCode)"
       >
         {{ item.categoryName }}
       </span>
     </div>
-    <button class="confirm-btn" @click="confirm">完成</button>
+    <!--<button class="confirm-btn" @click="confirm">完成</button>-->
   </div>
 </template>
 
 <script>
 export default {
   model: {
-    prop: 'categories',
+    prop: 'categoryCode',
     event: 'change'
   },
   props: {
-    categories: {
-      type: Array,
+    categoryCode: {
+      type: String,
       required: true
     }
   },
@@ -45,7 +45,7 @@ export default {
       })
     },
     resetCache () {
-      this.cacheList = this.categories.slice()
+      this.cacheList = [this.categoryCode].slice()
     },
     selectItem (name) {
       const arr = this.cacheList.slice()
@@ -56,9 +56,10 @@ export default {
         arr.push(name)
       }
       this.cacheList = arr
+      this.confirm(true)
     },
     confirm () {
-      this.$emit('change', this.cacheList)
+      this.$emit('change', this.cacheList.join(''))
     }
   }
 }

@@ -4,7 +4,7 @@
       <Input v-model="formValidate.name"></Input>
     </FormItem>
     <FormItem label="简介" prop="introduction">
-      <Input v-model="formValidate.introduction" type="textarea" :autosize="{minRows: 2,maxRows: 5}"></Input>
+      <Input v-model="formValidate.introduction" type="textarea" :autosize="{minRows: 5,maxRows: 8}"></Input>
     </FormItem>
     <FormItem label="地区" prop="areaCode">
       <Select v-model="formValidate.areaCode" style="width:180px" filterable>
@@ -25,7 +25,8 @@
       </RadioGroup>
     </FormItem>
     <FormItem label="缩略图" prop="thumbnailPath">
-      <img v-if="formValidate.thumbnailPath" :src="`/file/${formValidate.thumbnailPath}`" style="height: 167px">
+      <img v-if="formValidate.thumbnailPath" :src="`/file/${formValidate.thumbnailPath}`" style="height: 210px;width: 360px">
+      <span>建议图片大小360*210</span>
       <div style="width: 344px;height:167px;border: 1px solid #eee;" v-if="!formValidate.thumbnailPath"></div>
       <Upload
         action="/manage/file/upload"
@@ -59,8 +60,8 @@
         }]: []"
         ref="video"
         :on-success="handleVideoSuccess"
-        :accept="['MPEG','MPG','AVI','MOV','DAT','RM']"
-        :format="['MPEG','MPG','AVI','MOV','DAT','RM']"
+        :accept="['MPEG','MPG','AVI','MOV','DAT','RM','MP4']"
+        :format="['MPEG','MPG','AVI','MOV','DAT','RM','MP4']"
         :on-format-error="handleFormatError"
         :before-upload="handleBeforeVideoUpload"
       >

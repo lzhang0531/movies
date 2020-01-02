@@ -1,6 +1,5 @@
 <template>
   <Transition name="fade">
-    dsssssssssssssssssssss
     <div class="category">
       <div class="nav-wrapper">
         <div class="tabs">
@@ -16,10 +15,10 @@
           </div>
         </div>
         <div v-show="activeTabIdx !== -1" class="tab-content">
-          <SizerCategory
+          <SizerCategorySingle
             v-show="activeTabIdx === 0"
             ref="sizerCategory"
-            v-model="categories"
+            v-model="categoryCode"
             @change="getMovieList"
           />
         </div>
@@ -27,12 +26,17 @@
       </div>
       <div class="content-wrapper">
         <ScrollView :data="movieList" :pull-up-load="true" @pulling-up="loadMore">
-          <Card
+
+          <div
+            class="movie-wrapper"
             v-for="movie in movieList"
-            :key="movie._id"
+            :key="movie.id"
             :movie="movie"
             @select="gotoDetail"
-          />
+          >
+            <img  :src="`/file/${movie.thumbnailPath}`" height="210px" >
+            <div class="title">{{movie.name}}435345fdgfdgfdgdgfdgfdgf搜索顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶</div>
+          </div>
           <div class="pull-up-wrap">
             <p v-show="pullUpLoading">正在加载...</p>
             <p v-show="noMore">没有更多了~</p>
@@ -51,12 +55,12 @@
 </template>
 
 <script>
-import SizerCategory from '../components/SizerCategory'
+import SizerCategorySingle from '../components/SizerCategorySingle'
 
 export default {
   name: 'List',
   components: {
-    SizerCategory
+    SizerCategorySingle
   },
   data () {
     return {
@@ -67,6 +71,7 @@ export default {
       activeTabIdx: -1,
       pullUpLoading: false,
       categories: [],
+      categoryCode: '',
       type: +this.$route.params.type
     }
   },
@@ -85,23 +90,26 @@ export default {
     this.page = 1
     this.movieList = []
     this.count = 0
+    this.categoryCode = ''
     next()
     this.getMovieList()
   },
   methods: {
-    getMovieList () {
+    getMovieList (clearFlag) {
       this.activeTabIdx = -1
-      console.log(this.$route.params)
       const params = {
-        page: this.page,
-        page_size: 10,
-        type: 1,
-        categories: this.categories
+        pageNum: this.page,
+        pageSize: 10,
+        areaCode: this.$route.params.type,
+        categoryCode: this.categoryCode
       }
-      this.$axios.get('/api/movie/get_movies', { params }).then(res => {
-        if (res.code === 1001) {
-          this.movieList = this.movieList.concat(res.result.movies)
-          this.count = res.result.count
+      if(clearFlag){
+        this.movieList = []
+      }
+      this.$axios.get('/manage/video/page', { params }).then(res => {
+        if (res.res=== 0) {
+          this.movieList = this.movieList.concat(res.data.list)
+          this.count = res.data.total
         }
         this.$nextTick(() => {
           this.pullUpLoading = false
@@ -118,12 +126,12 @@ export default {
     gotoDetail (id) {
       this.$router.push(`/movie/${id}`)
     },
-    // 切换 type、tab[1] 名字
+/*    // 切换 type、tab[1] 名字
     changeType ({ type, name }) {
       this.params.type = type
       this.cats[1] = name
       this.getMovieList()
-    },
+    },*/
     switchTab (idx) {
       // 点击相同
       if (idx === this.activeTabIdx) {
@@ -135,12 +143,6 @@ export default {
       // 当从其他tab点击第一个时，重置组件cacheList
       if (idx === 0) {
         this.$refs.sizerCategory.resetCache()
-      }
-
-      if (idx === 2) {
-        this.$nextTick(() => {
-          this.$refs.sizerRate.resetCache()
-        })
       }
     },
     selectItem (id) {
@@ -159,6 +161,20 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+  .movie-wrapper
+    padding 10px 20px
+    box-sizing: border-box
+    border-bottom: 1px solid #e6e6e6
+    .title
+      color: #333
+      font-size: 17px
+      font-weight: 700
+      line-height:20px
+      overflow: hidden
+      text-overflow: ellipsis
+      display: -webkit-box
+      -webkit-line-clamp: 2
+      -webkit-box-orient: vertical
   .nav-wrapper
     position fixed
     width 100%

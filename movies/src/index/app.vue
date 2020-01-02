@@ -19,7 +19,7 @@ export default {
   },
   data () {
     return {
-      exclude: ['User']
+      exclude: ['User','List']
     }
   }
 }

@@ -22,8 +22,7 @@ const pages = {
       template: 'public/index.html',
       // 编译后在dist目录的输出文件名，可选项，省略时默认与模块名一致
       filename: 'index.html',
-      // 包含的模块，可选项
-      chunks: ['index']
+      publicPath :'/'
   },
 }
 // 项目部署基础
@@ -36,7 +35,7 @@ const pages = {
 // iview-admin线上演示打包路径： https://file.iviewui.com/admin-dist/
 const BASE_URL = process.env.NODE_ENV === 'production'
   ? '/'
-  : ''
+  : '/'
 
 module.exports = {
   pages,
@@ -81,8 +80,8 @@ module.exports = {
       '/api': {
         target: 'http://movie.ihaoze.cn/'
       },
-      '/manage': {     //这里最好有一个 /
-        target: 'http://47.111.232.212:9090',  // 后台接口域名
+      '/manage': {
+        target: 'http://47.111.232.212:9090',
         changeOrigin: true,  //是否跨域
         pathRewrite:{
           '^/manage':''
