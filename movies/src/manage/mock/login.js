@@ -18,7 +18,14 @@ const USER_MAP = {
 
 export const login = req => {
   req = JSON.parse(req.body)
-  return { token: USER_MAP[req.userName].token }
+  if(req.password != req.userName || !USER_MAP[req.userName]){
+    return {
+      res:-1,
+      msg:'用户名或密码错误'
+    }
+  }else {
+    return { token: USER_MAP[req.userName].token }
+  }
 }
 
 export const getUserInfo = req => {
