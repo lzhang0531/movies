@@ -32,7 +32,7 @@
             v-for="movie in movieList"
             :key="movie.id"
             :movie="movie"
-            @select="gotoDetail"
+            @click="gotoDetail(movie.id)"
           >
             <img :src="`/file/${movie.thumbnailPath}`" height="210px" >
             <div class="title">{{movie.name}}</div>

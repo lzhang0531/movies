@@ -1,5 +1,7 @@
 import VueRouter from 'vue-router'
-export default new VueRouter({
+import store from 'index/store'
+import { getCookieUser,setCookieUser } from 'index/common/js/cache'
+const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
@@ -24,3 +26,17 @@ export default new VueRouter({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  if (!store.state.deviceId) {
+/*    const deviceId = getCookieUser();
+    if(deviceId){
+      store.commit('setDeviceId',deviceId)
+    }else {
+       store.dispatch('getDeviceId')
+    }*/
+    store.dispatch('getDeviceId')
+  }
+  next()
+})
+export default router

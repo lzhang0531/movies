@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import app from './app.vue'
 import router from './router'
-import store from 'index/store'
 import axios from 'index/common/js/axios'
+import store from 'index/store'
 import VueLazyload from 'vue-lazyload'
 import globalComponents from 'index/common/js/components'
 

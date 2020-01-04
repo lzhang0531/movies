@@ -6,87 +6,25 @@
         <i class="iconfont icon-left" @click="$router.back()"/>
       </div>
       <div class="info-wrapper">
-        <ScrollView :data="relativeMovies">
-          <section v-if="movie.title" class="info">
-            <div class="title">{{ movie.title }}</div>
-            <div class="descript">{{ desc }}</div>
-            <div class="switch-wrapper" @click="toggleLayer">
-              <span>简介</span>
-              <i class="iconfont icon-right"/>
-            </div>
-          </section>
-          <Spacing :height="10" bg-color="#f9f9f9"/>
-          <section v-if="relativeMovies" class="relative-movies">
-            <h1 class="text">相关推荐</h1>
-            <div class="list">
-              <div
-                v-for="item in relativeMovies"
-                :key="item._id"
-                class="item"
-                @click="goToDetail(item._id)"
-              >
-                <img v-lazy="item.poster" width="56" height="80">
-                <div class="desc">
-                  <p class="title">{{ item.title }}</p>
-                  <div v-if="item.isPlay === 1" class="rate">
-                    <span>豆瓣评分: </span>
-                    <span class="text">{{ item.rate || '暂无' }}</span>
-                  </div>
-                  <p v-else class="pubdate">
-                    <span>上映时间: </span>
-                    <span>{{ item.pubdate.replace('(中国大陆)', '') }}</span>
-                  </p>
-                  <p>类型: {{ item.movieTypes.join('/') }}</p>
-                </div>
-              </div>
-            </div>
-          </section>
-          <div v-if="!relativeMovies" class="loading-wrap">
-            <Loading />
-          </div>
-        </ScrollView>
-        <Transition name="layer">
-          <div v-show="isShow" class="layer-wrapper">
+          <div class="layer-wrapper">
             <div class="title">
-              <span class="text">{{ movie.title }}</span>
-              <i class="iconfont icon-down" @click="toggleLayer"/>
+              <span class="text">{{ movie.name }}</span>
             </div>
-            <div v-if="movie.title" class="desc">
+            <div v-if="movie.name" class="desc">
               <div class="descript">
-                <div v-if="movie.rate !== 0" class="star item">
-                  <span class="name">评分: </span>
-                  <span class="text">{{ movie.rate }}</span>
-                </div>
-                <div v-else class="pubdate item">
-                  <span class="name">上映时间: </span>
-                  <span class="text">{{ pubdate }}</span>
-                </div>
-                <div class="author item">
-                  <span class="name">导演: </span>
-                  <span class="text">{{ movie.author }}</span>
-                </div>
-                <div class="cast item">
-                  <span class="name">影人: </span>
-                  <span class="text">{{ casts }}</span>
-                </div>
                 <div class="category item">
-                  <span class="name">类型: </span>
-                  <span class="text">{{ movie.movieTypes.join('·') }}</span>
+                  <span class="name">类型</span>
+                  <span class="text">{{ movie.categoryName }} </span>
                 </div>
               </div>
-              <div class="casts">
-                <div v-for="item in movie.casts" :key="item._id" class="cast">
-                  <img v-lazy="item.avatar" class="img">
-                  <h3 class="name">{{ item.name }}</h3>
+              <div class="descript">
+                <div class="category item">
+                  <span class="name">简介</span>
+                  <span class="text">{{ movie.introduction }}</span>
                 </div>
-              </div>
-              <div class="summary">
-                <h1 class="title">简介</h1>
-                <span class="text">{{ movie.summary }}</span>
               </div>
             </div>
           </div>
-        </Transition>
       </div>
     </div>
   </Transition>
@@ -99,7 +37,6 @@ export default {
   data () {
     return {
       movie: {},
-      relativeMovies: [],
       isShow: false
     }
   },
@@ -107,45 +44,26 @@ export default {
     next()
     this.getDetail()
   },
-  computed: {
-    desc () {
-      const duration = this.movie.duration || this.movie.pubdate.replace('(中国大陆)', '')
-      const rate = this.movie.rate ? `${this.movie.rate}分` : '即将上映'
-      return `${rate} · ${this.movie.movieTypes.join('/')} · ${duration}`
-    },
-    casts () {
-      const casts = this.movie.casts
-      return casts.map(it => it.name).join('/')
-    }
-  },
   created () {
     this.getDetail()
   },
   methods: {
     getDetail () {
       const { id } = this.$route.params
-      this.$axios.get(`/api/movie/get_detail/${id}`).then(res => {
-        if (res.code === 1001) {
-          this.movie = res.result.movie
-          this.relativeMovies = res.result.relativeMovies
+      this.$axios.get(`/manage/video/${id}`).then(res => {
+        if (res.res === 0) {
+          this.movie = res.data
           this.initPlayer()
         }
       })
-    },
-    toggleLayer () {
-      this.isShow = !this.isShow
-    },
-    goToDetail (id) {
-      this.$router.replace(`/movie/${id}`)
     },
     initPlayer () {
       const { DPlayer } = window
       this.player = new DPlayer({
         container: this.$refs.player,
         video: {
-          // url: 'http://cdn.m.ihaoze.cn/' + this.movie.doubanId,
-          url: this.movie.video,
-          pic: this.movie.cover
+          url: '/file/'+this.movie.videoPath,
+          pic: '/file/'+this.movie.thumbnailPath
         }
       })
     }
@@ -201,6 +119,7 @@ export default {
         color #777
         .text
           font-size 15px
+          font-weight normal
         .icon
           font-weight bold
           vertical-align text-bottom
@@ -242,10 +161,14 @@ export default {
       background #fff
       .title
         padding 5px 10px
+        border-bottom 1px solid #eee
         height 20px
         line-height 20px
         font-size 15px
         font-weight bold
+        overflow hidden
+        white-space nowrap
+        text-overflow ellipsis
         .icon-down
           float right
       .desc
@@ -259,7 +182,7 @@ export default {
         .descript
           margin 10px 0
           font-size 13px
-          border-bottom 1px solid #eee
+          /*border-bottom 1px solid #eee*/
           .item
             display flex
             margin-bottom 10px
@@ -267,6 +190,7 @@ export default {
             .name
               margin-right 8px
               white-space nowrap
+              font-weight bold
         .casts
           font-size 0
           white-space nowrap
@@ -287,6 +211,7 @@ export default {
               text-overflow ellipsis
         .summary
           .title
+            border-bottom none
             font-size 14px
             font-weight bold
             margin 15px 0
