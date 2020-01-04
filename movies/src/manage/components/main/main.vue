@@ -58,9 +58,6 @@ export default {
     tagNavList () {
       return this.$store.state.app.tagNavList
     },
-    tagRouter () {
-      return this.$store.state.app.tagRouter
-    },
     userAvatar () {
       return this.$store.state.user.userName
     },

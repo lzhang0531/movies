@@ -26,7 +26,7 @@
     </FormItem>
     <FormItem label="缩略图" prop="thumbnailPath">
       <img v-if="formValidate.thumbnailPath" :src="`/file/${formValidate.thumbnailPath}`" style="height: 210px;width: 360px">
-      <span>建议图片大小360*210</span>
+      <p>建议图片大小360*210</p>
       <div style="width: 344px;height:167px;border: 1px solid #eee;" v-if="!formValidate.thumbnailPath"></div>
       <Upload
         action="/manage/file/upload"
@@ -113,7 +113,7 @@
             {required: true, message: '请上传缩略图', trigger: 'blur'},
           ],
           videoPath: [
-            {required: true, message: '请上传视频', trigger: 'change'},
+            {required: true, message: '请先上传视频或等待视频上传完成', trigger: 'change'},
           ],
           introduction: [
             {required: true, message: '请输入简介', trigger: 'blur'},
@@ -192,12 +192,12 @@
       },
       onSave () {
         this.$refs.formValidate.validate((valid) => {
-          if (!this.videoUploadSuccess) {
+  /*        if (!this.videoUploadSuccess) {
             this.$Notice.warning({
               title: '请先等待视频上传完成',
             })
             return false
-          }
+          }*/
           if (valid) {
             if (this.formValidate.id) {//编辑
               updateVideo(this.formValidate).then(res => {

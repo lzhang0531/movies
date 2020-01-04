@@ -88,8 +88,22 @@ export const deleteUser = (id) => {
     method: 'DELETE',
   })
 }
-
-
+export const getOrderPage = (access) => {
+  return axios.request({
+    url: '/manage/order/page',
+    method: 'get',
+    params: access,
+  })
+}
+export const setPaymentAmount = (access) => {
+  return axiosOrigin.post('/manage/order/set-payment-amount',access)
+}
+export const getPaymentAmount = (access) => {
+  return axios.request({
+    url: '/manage/order/get-payment-amount',
+    method: 'get'
+  })
+}
 
 
 

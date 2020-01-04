@@ -107,6 +107,25 @@ export default [
       }
     ]
   },
+  {
+    path: '/order_list',
+    name: 'order_list',
+    meta: {
+      hideInBread: true
+    },
+    component: Main,
+    children: [
+      {
+        path: 'order_list_page',
+        name: 'order_list_page',
+        meta: {
+          icon: 'logo-bitcoin',
+          title: '订单管理'
+        },
+        component: () => import('@/view/order/order-list.vue')
+      }
+    ]
+  },
 /*  {
     path: '/components',
     name: 'components',
