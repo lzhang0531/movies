@@ -104,9 +104,30 @@ export const getPaymentAmount = (access) => {
     method: 'get'
   })
 }
-
-
-
+export const getFeedbackPage = (access) => {
+  return axios.request({
+    url: '/manage/feedback/page',
+    method: 'get',
+    params: access,
+  })
+}
+export const dealFeedback = (access) => {
+  return axiosOrigin.put('/manage/feedback/deal',access)
+}
+export const getInvitePage = (access) => {
+  return axios.request({
+    url: '/manage/user/page-invite',
+    method: 'get',
+    params: access,
+  })
+}
+export const getUserstatistics = (access) => {
+  return axios.request({
+    url: '/manage/user/statistics',
+    method: 'get',
+    params: access,
+  })
+}
 
 
 

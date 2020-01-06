@@ -92,7 +92,7 @@
         if(this.appUser.userInfo.id!=''&&this.orderPrice!=''){
           this.$axios.post(`/manage/order/create`,{
             orderType:this.orderType,
-            orderPrice:0.01,
+            orderPrice:this.orderPrice,
             areaCode:this.areaCode,
             amount:this.amount,
             userId:this.appUser.userInfo.id

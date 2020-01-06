@@ -29,14 +29,15 @@ export default [
   },
   {
     path: '/',
-    name: '_home',
-    redirect: '/home',
+    redirect: '/statistics/newUser_list_page',
     component: Main,
+    title: '首页',
     meta: {
+      hideInBread: true,
       hideInMenu: true,
       notCache: true
     },
-    children: [
+/*    children: [
       {
         path: '/home',
         name: 'home',
@@ -48,7 +49,7 @@ export default [
         },
         component: () => import('@/view/single-page/home')
       }
-    ]
+    ]*/
   },
   {
     path: '/movie_type',
@@ -123,6 +124,54 @@ export default [
           title: '订单管理'
         },
         component: () => import('@/view/order/order-list.vue')
+      }
+    ]
+  },
+  {
+    path: '/feedback-list',
+    name: 'feedback-list',
+    meta: {
+      hideInBread: true
+    },
+    component: Main,
+    children: [
+      {
+        path: 'feedback-list_page',
+        name: 'feedback-list_page',
+        meta: {
+          icon: 'ios-clipboard',
+          title: '意见反馈'
+        },
+        component: () => import('@/view/user/feedback-list.vue')
+      }
+    ]
+  },
+  {
+    path: '/statistics',
+    name: 'statistics',
+    meta: {
+      icon: 'logo-buffer',
+      title: '统计'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'invite_list_page',
+        name: 'invite-list_page',
+        meta: {
+          icon: 'ios-podium',
+          title: '邀请统计'
+        },
+        component: () => import('@/view/user/invite-list.vue')
+      },
+      {
+        path: 'newUser_list_page',
+        name: 'newUser_list_page',
+        meta: {
+          icon: 'ios-podium',
+          title: '用户统计'
+        },
+        component: () => import('@/view/user/newUser-list.vue')
       }
     ]
   },
