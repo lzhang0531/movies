@@ -23,19 +23,30 @@ const router = new VueRouter({
       path: '/movie/:id',
       name: 'movie',
       component: () => import('./pages/Movie.vue')
+    },
+    {
+      path: '/fillInvitation',
+      name: 'fillInvitation',
+      component: () => import('./pages/fillInvitation.vue')
+    },
+    {
+      path: '/feedback',
+      name: 'feedback',
+      component: () => import('./pages/feedback.vue')
+    },
+    {
+      path: '/orderList',
+      name: 'orderList',
+      component: () => import('./pages/orderList.vue')
     }
   ]
 })
 
 router.beforeEach((to, from, next) => {
-  if (!store.state.deviceId) {
-/*    const deviceId = getCookieUser();
-    if(deviceId){
-      store.commit('setDeviceId',deviceId)
-    }else {
-       store.dispatch('getDeviceId')
-    }*/
+  if (!store.state.appUser.deviceId) {
     store.dispatch('getDeviceId')
+  }else if(!store.state.appUser.userInfo.id){
+    store.dispatch('getUserInfo',store.state.appUser.deviceId)
   }
   next()
 })

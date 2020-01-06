@@ -6,53 +6,61 @@
           <img src="~index/common/images/user.png" width="32">
         </div>
         <div class="info">
-          <span class="text" v-if="appUser.userInfo.userName" :class="{vip : appUser.userInfo.memberDtos}">{{ appUser.userInfo.userName }}</span>
-          <span>
-            <div class="mg-2b" v-for="item in appUser.userInfo.memberDtos">{{areaList[item.areaCode]}}会员: {{ item.memberEndTime.substring(0,10)}}</div>
-          </span>
-          <span class="text" >点击续费/购买会员</span>
-          <!--<span class="text" v-if="appUser.userInfo.memberFlag"></span>-->
+          <span class="text" v-if="appUser.userInfo.userName">{{ appUser.userInfo.userName }}</span>
+          <span class="text" v-if="!appUser.userInfo.memberFlag">点击购买会员</span>
+          <span class="text" v-if="appUser.userInfo.memberFlag">会员有效期： {{ appUser.userInfo.memberEndTime.substring(0,10) }}</span>
         </div>
         <i class="iconfont icon-left" @click="$router.back()"/>
       </div>
       <div class="menu-wrapper">
         <ul class="menus">
-          <li class="menu-item" @click="$router.push('/orderList')">
+          <li class="menu-item" @click="$router.push('/list/1')">
             <i class="iconfont icon-history"/>
             <span class="text">购买记录</span>
             <i class="iconfont icon-right"/>
           </li>
-          <li class="menu-item"  @click="$router.push('/feedback')">
-            <i class="iconfont icon-email" />
+          <li class="menu-item">
+            <i class="iconfont icon-email"/>
             <span class="text">意见反馈</span>
             <i class="iconfont icon-right" />
           </li>
-          <li class="menu-item"  @click="showInvitationModal">
+          <li class="menu-item"  @click="invitationModal=true">
             <i class="iconfont icon-share"/>
             <span class="text">我的邀请码</span>
             <i class="iconfont icon-right"/>
           </li>
-          <li class="menu-item"  @click="$router.push('/fillInvitation')">
+          <li class="menu-item">
             <i class="iconfont icon-user"/>
             <span class="text">填写邀请码</span>
             <i class="iconfont icon-right"/>
           </li>
         </ul>
       </div>
+      <div class="ui-dialog" :class="{'show' :invitationModal}">
+        <div class="ui-dialog-cnt">
+          <div class="ui-dialog-bd">
+            <p>邀请好友填写邀请码，可以获得免费观看次数</p>
+            <p id="invitationCode">{{ appUser.userInfo.invitationCode }}</p>
+          </div>
+          <div class="ui-dialog-ft">
+            <button type="button" data-role="button" @click="invitationModal=false">我知道了</button>
+            <!--<button type="button" data-role="button" @click="copyInvitationModal">复制邀请码</button>-->
+          </div>
+        </div>
+      </div>
     </div>
   </transition>
 </template>
 
 <script>
-  import { areaList } from '@/libs/areaList'
-  import { mapState,mapActions } from 'vuex'
-  import { MessageBox } from 'mint-ui';
+import { mapState,mapActions } from 'vuex'
 
 export default {
   name: 'User',
   data () {
     return {
-      areaList:areaList
+      invitationModal:false,
+      invitationModal2:true,
     }
   },
   computed: {
@@ -69,8 +77,18 @@ export default {
     ...mapActions([
       'getUserInfo'
     ]),
-    showInvitationModal(){
-      MessageBox('邀请码', this.appUser.userInfo.invitationCode);
+    copyInvitationModal(){
+ /*     const range = document.createRange();
+      range.selectNode(document.getElementById('invitationCode'));
+      const selection = window.getSelection();
+      if(selection.rangeCount > 0) selection.removeAllRanges();
+      selection.addRange(range);
+      console.log(range)
+      document.execCommand('copy');*/
+   /*   const copy=document.getElementById("invitationCode");
+      copy.select(); // 选择对象
+      document.execCommand("Copy")*/
+      this.invitationModal=false;
     }
   }
 }
@@ -155,8 +173,4 @@ export default {
   transition all .5s
 .fade-enter, .fade-leave-to
   transform translateX(100%)
-.mg-2b
-    margin-bottom 4px
-.vip
-  color: #F0E68C
 </style>

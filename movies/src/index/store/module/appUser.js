@@ -19,7 +19,6 @@ const appUser = {
   state: {
     deviceId: getCookieUser(),
     userInfo :{
-
     }
   },
   mutations:{
@@ -34,8 +33,9 @@ const appUser = {
   actions:{
     getDeviceId  ({ state, commit }) {
       return new Promise((resolve, reject) => {
-        const deviceId = '12345'
+        const deviceId = '123456'
         commit('setDeviceId', deviceId)
+        dispatch('getUserInfo',deviceId)
       })
     },
     getUserInfo({ commit }, deviceId){

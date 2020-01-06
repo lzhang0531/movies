@@ -1,9 +1,7 @@
 <template>
     <div id="app">
         <div class="content">
-            <keep-alive :exclude="exclude">
                 <router-view></router-view>
-            </keep-alive>
         </div>
         <TheHeader/>
     </div>
@@ -19,7 +17,7 @@ export default {
   },
   data () {
     return {
-      exclude: ['User','List']
+      exclude: ['User']
     }
   }
 }
