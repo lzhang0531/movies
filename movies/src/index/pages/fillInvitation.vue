@@ -89,11 +89,11 @@
       left: 0;
       text-align: center;
       padding: 15px 0;
-      color: #999;
+      color: #222;
     }
     .icon-left {
       font-size: 25px;
-      color: #bbb;
+      color: #222;
       position: absolute;
       left: 10px;
       top: 10px;

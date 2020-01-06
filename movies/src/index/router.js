@@ -38,6 +38,11 @@ const router = new VueRouter({
       path: '/orderList',
       name: 'orderList',
       component: () => import('./pages/orderList.vue')
+    },
+    {
+      path: '/buyMember',
+      name: 'buyMember',
+      component: () => import('./pages/buyMember.vue')
     }
   ]
 })

@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
     <title>movie</title>
     <link rel="stylesheet" href="//at.alicdn.com/t/font_628648_3v3x53p1ger.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/dplayer/1.25.0/DPlayer.min.css" as="style">
@@ -11,19 +12,52 @@
   <link rel="stylesheet" href="//unpkg.com/mint-ui/lib/style.css">
   <style>
     .feedback .mint-field-core {
-      background-color: #eee;
+      /*background-color: #eee;*/
+      border: 1px solid #ddd;
+      padding-left:2px ;
     }
     .mint-cell-wrapper{
       background-image: none;
     }
-    .mint-button--primary {
+    .mint-button--primary,.button{
       background-color: #252a2e;
+      color: #fff;
+    }
+    .mint-msgbox-confirm{
+      color: #333;
+      font-weight: bold;
+    }
+    .mint-msgbox-cancel {
+      color: #999
+    }
+    .mint-msgbox-message{
+      color:#4c4a4a
     }
   </style>
   <!-- 引入组件库 -->
 </head>
 <body>
 <div id="app"></div>
+<script>
+  window.onload = function () {
+    document.addEventListener('touchstart', function (event) {
+      if (event.touches.length > 1) {
+        event.preventDefault();
+      }
+    });
+    var lastTouchEnd = 0;
+    document.addEventListener('touchend', function (event) {
+      var now = (new Date()).getTime();
+      if (now - lastTouchEnd <= 300) {
+        event.preventDefault();
+      }
+      lastTouchEnd = now;
+    }, false);
+    document.addEventListener('gesturestart', function (event) {
+      event.preventDefault();
+    });
+  }
+</script>
 <script src="//cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
 <script src="//cdn.bootcss.com/vue-router/3.0.1/vue-router.min.js"></script>
 <script src="//cdn.bootcss.com/vuex/3.0.1/vuex.min.js"></script>

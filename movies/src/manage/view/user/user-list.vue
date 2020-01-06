@@ -37,7 +37,6 @@
         label: areaList[key],
       })
     }
-    console.log(arr)
     return arr
   }
   export default {

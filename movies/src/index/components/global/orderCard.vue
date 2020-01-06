@@ -2,10 +2,9 @@
   <div class="card">
     <div class="time">
       {{order.payTime ? order.payTime.substring(0,16):order.createTime.substring(0,16)}}
-      ({{order.orderStatus == 2 ? '支付成功':'未支付'}})
     </div>
     <div class="descript">
-      <h1 class="title">￥{{ order.orderPrice }}</h1>
+      <h1 class="title">{{ order.orderStatus == 2 ?  '￥'+Number(order.orderPrice).toFixed(2) : '未支付'}}</h1>
     </div>
   </div>
 </template>
@@ -33,7 +32,7 @@ export default {
     box-sizing border-box
     border-bottom 1px solid #e6e6e6
     .time
-      width 220px
+      width 150px
       color #666
     .descript
       flex 1

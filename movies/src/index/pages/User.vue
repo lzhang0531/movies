@@ -6,11 +6,13 @@
           <img src="~index/common/images/user.png" width="32">
         </div>
         <div class="info">
-          <span class="text" v-if="appUser.userInfo.userName" :class="{vip : appUser.userInfo.memberDtos}">{{ appUser.userInfo.userName }}</span>
+          <div class="mg-5b">
+            <span class="text" v-if="appUser.userInfo.userName" :class="{vip : appUser.userInfo.memberDtos}">{{appUser.userInfo.userName }}</span><span class="buy" @click="$router.push('/buyMember')">购买会员</span>
+          </div>
           <span>
             <div class="mg-2b" v-for="item in appUser.userInfo.memberDtos">{{areaList[item.areaCode]}}会员: {{ item.memberEndTime.substring(0,10)}}</div>
           </span>
-          <span class="text" >点击续费/购买会员</span>
+
           <!--<span class="text" v-if="appUser.userInfo.memberFlag"></span>-->
         </div>
         <i class="iconfont icon-left" @click="$router.back()"/>
@@ -29,7 +31,7 @@
           </li>
           <li class="menu-item"  @click="showInvitationModal">
             <i class="iconfont icon-share"/>
-            <span class="text">我的邀请码</span>
+            <span class="text">推荐有奖</span>
             <i class="iconfont icon-right"/>
           </li>
           <li class="menu-item"  @click="$router.push('/fillInvitation')">
@@ -65,12 +67,29 @@ export default {
       this.getUserInfo(this.appUser.deviceId)
     }
   },
+  beforeRouteEnter (to, from, next) {
+    next((vm)=>{
+      if(from.name==='buyMember'){
+        vm.getUserInfo(vm.appUser.deviceId)
+      }
+    })
+  },
   methods: {
     ...mapActions([
       'getUserInfo'
     ]),
     showInvitationModal(){
-      MessageBox('邀请码', this.appUser.userInfo.invitationCode);
+      // MessageBox('邀请码', '邀请信用户写要邀请码，可免费获得观影次数:'+this.appUser.userInfo.invitationCode);
+      MessageBox({
+        title: '邀请码',
+        message: '邀请新用户写要邀请码，<br>可免费获得观影次数:<br><span class="vip">'+this.appUser.userInfo.invitationCode+'</span>',
+        confirmButtonText: '复制邀请码',
+        showCancelButton:true,
+        confirmButtonHighlight:true,
+        cancelButtonText: '我知道了'
+      }).then(action => {
+          alert(action)
+      })
     }
   }
 }
@@ -108,6 +127,7 @@ export default {
       .text
         flex 1
         line-height 33px
+        font-size 25px
     .icon-left
       position absolute
       top 10px
@@ -123,34 +143,16 @@ export default {
         line-height 25px
         list-style none
         border-bottom 1px solid #d8d8d8
-        color #333
+        color #3b3b3b
         .iconfont
-          vertical-align text-bottom
+          vertical-align bottom
           font-size 25px
-          color #999
           margin-right 8px
         .icon-email
           font-weight bold
-        .count
-          float right
-          margin-right 5px
-          color #999
-          font-size 15px
         .icon-right
           font-size 20px
           float right
-  .btn-wrapper
-    padding 20px
-    .logout-btn
-      width 100%
-      height 48px
-      line-height 48px
-      font-size 18px
-      border none
-      border-radius 48px
-      color #fff
-      background-color #f13900
-      outline none
 .fade-enter-active, .fade-leave-active
   transition all .5s
 .fade-enter, .fade-leave-to
@@ -158,5 +160,11 @@ export default {
 .mg-2b
     margin-bottom 4px
 .vip
-  color: #F0E68C
+  color: #e8931b
+  font-weight bold
+.buy
+  margin-left 5px
+  color #f2d142
+.mg-5b
+  margin-bottom 5px
 </style>

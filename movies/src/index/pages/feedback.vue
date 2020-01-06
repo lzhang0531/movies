@@ -7,12 +7,12 @@
       </div>
       <div class="content">
         <div>
-          <div class="label">手机号<span class="red">*</span></div>
-          <mt-field label="" placeholder="必填" v-model="phone" :state="phoneState"></mt-field>
+          <div class="label"><span class="red">*</span>手机号</div>
+          <mt-field label="" placeholder="" v-model="phone" :state="phoneState"></mt-field>
         </div>
         <div>
-          <div class="label">意见反馈<span class="red">*</span></div>
-          <mt-field label="" placeholder="必填"  type="textarea" rows="4" v-model="content" :state="contentState"></mt-field>
+          <div class="label"><span class="red">*</span>意见反馈</div>
+          <mt-field label="" placeholder=""  type="textarea" rows="4" v-model="content" :state="contentState"></mt-field>
         </div>
       </div>
       <div class="text-center">
@@ -104,11 +104,11 @@
       left: 0;
       text-align: center;
       padding: 15px 0;
-      color: #999;
+      color: #222;
     }
     .icon-left {
       font-size: 25px;
-      color: #bbb;
+      color: #222;
       position: absolute;
       left: 10px;
       top: 10px;
@@ -116,7 +116,7 @@
     .content {
       margin-top: 50px;
       background: #fff;
-      padding:15px 5px;
+      padding:15px 10px;
     }
     .text{
       font-size: 20px;
@@ -125,8 +125,9 @@
       color: red;
     }
     .label{
-      padding-left: 10px;
-      padding-bottom: 5px;
+      margin-bottom: 5px;
+      margin-top: 10px;
+      color: #3b3b3b;
     }
   }
   .mg-20t{

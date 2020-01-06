@@ -49,12 +49,9 @@
     },
     computed: {
       noMore () {
-        console.log("noMore==="+this.count === this.orderList.length && this.count !== 0)
         return this.count === this.orderList.length && this.count !== 0
       },
       noResult () {
-        console.log("noResult==="+this.count === 0)
-
         return this.count === 0
       },
       ...mapState([
@@ -73,7 +70,6 @@
     },
     methods: {
       getOrderList () {
-        console.log(this.appUser.userInfo.id)
         const params = {
           pageNum: this.page,
           pageSize: 10,
@@ -83,7 +79,6 @@
           if (res.res=== 0) {
             this.orderList = this.orderList.concat(res.data.list)
             this.count = res.data.total
-            console.log(this.orderList)
           }
           this.$nextTick(() => {
             this.pullUpLoading = false
@@ -122,7 +117,7 @@
     z-index 10
     .content-wrapper
       position fixed
-      top 60px
+      top 50px
       right 0
       bottom 0
       left 0
@@ -164,11 +159,11 @@
       left: 0;
       text-align: center;
       padding: 15px 0;
-      color: #999;
+      color: #222;
     }
     .icon-left {
       font-size: 25px;
-      color: #bbb;
+      color: #222;
       position: absolute;
       left: 10px;
       top: 10px;
