@@ -1,10 +1,11 @@
 <template>
   <Transition name="fade">
     <div class="movie">
-      <div class="player-wrapper" @touchmove.prevent>
-        <div ref="player" class="player"/>
+      <div class="player-wrapper" @touchmove.prevent >
+        <div ref="player" class="player" v-show="!isShow"/>
         <i class="iconfont icon-left" @click="$router.back()"/>
       </div>
+      <StopPlay :freeTimes="freeTimes" :videoId="$route.params.id" :userId="appUser.userInfo.id || ''" v-show="isShow"/>
       <div class="info-wrapper">
           <div class="layer-wrapper">
             <div class="title">
@@ -26,7 +27,6 @@
             </div>
           </div>
       </div>
-      <StopPlay :freeTimes="freeTimes"  v-show="isShow"/>
     </div>
   </Transition>
 </template>
@@ -107,32 +107,28 @@
             if(this.player.video.currentTime > 10){
               this.player.pause();
               // this.player.seek(30);
-              const isFull = document.fullscreenEnabled || window.fullScreen || document.webkitIsFullScreen || document.msFullscreenEnabled;
-              console.log(isFull)
-              var de = document;
-              if (de.exitFullscreen) {
-                //W3C
-                de.exitFullscreen();
-              }else if(de.mozCancelFullScreen){
-                //FIREFOX
-                de.mozCancelFullScreen();
-              }else if(de.webkitCancelFullScreen){
-                //CHROME
-                de.webkitCancelFullScreen();
-              }else if(de.msExitFullscreen){
-                //MSIE
-                de.msExitFullscreen();
-              }else if(de.oRequestFullscreen){
-                de.oCancelFullScreen();
-              }else{
-                var docHtml = document.documentElement;
-                var docBody = document.body;
-                var videobox = document.getElementById('playerBox');
-                docHtml.style.cssText = "";
-                docBody.style.cssText = "";
-                videobox.style.cssText = "";
-                document.IsFullScreen = false;
-              }
+        /*
+              try {
+                const de = document;
+                if (de.exitFullscreen) {
+                  //W3C
+                  de.exitFullscreen();
+                }else if(de.mozCancelFullScreen){
+                  //FIREFOX
+                  de.mozCancelFullScreen();
+                }else if(de.webkitCancelFullScreen){
+                  //CHROME
+                  de.webkitCancelFullScreen();
+                }else if(de.msExitFullscreen){
+                  //MSIE
+                  de.msExitFullscreen();
+                }else if(de.oRequestFullscreen){
+                  de.oCancelFullScreen();
+                }
+              }catch (e) {
+
+              }*/
+
               this.player.fullScreen.cancel();
               this.isShow = true;
             }
@@ -165,6 +161,7 @@
       font-size 25px
       color #fff
       font-weight bold
+      z-index 1000
   .info-wrapper
     position relative
     height calc(100% - 210px)

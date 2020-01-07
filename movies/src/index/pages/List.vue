@@ -33,7 +33,7 @@
             :movie="movie"
             @click="gotoDetail(movie.id)"
           >
-            <img :src="`/file/${movie.thumbnailPath}`" height="210px" width="100%" >
+            <img :src="`/file/${movie.thumbnailPath}`" height="210px" width="100%" style="border-radius: 2%">
             <div class="title">{{movie.name}}</div>
           </div>
           <div class="pull-up-wrap">
@@ -66,7 +66,7 @@ export default {
       movieList: [],
       count: -1,
       page: 1,
-      cats: ['分类'],
+      cats: ['影片类型'],
       activeTabIdx: -1,
       pullUpLoading: false,
       categories: [],
@@ -217,6 +217,8 @@ export default {
       /*min-height 50px*/
       background #fff
       z-index 10
+      border-radius: 2px
+
     .mask
       position fixed
       top 40px
@@ -233,7 +235,7 @@ export default {
   z-index 10
   .content-wrapper
     position absolute
-    top 40px
+    top 50px
     bottom 0
     width 100%
     .pull-up-wrap

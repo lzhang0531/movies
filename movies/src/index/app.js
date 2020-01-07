@@ -10,6 +10,8 @@ import 'mint-ui/lib/style.css'
 Vue.use(MintUI)
 
 import 'index/common/styles/reset.styl'
+import 'index/common/styles/dplayer.min.css'
+import 'index/common/js/dplayer.js'
 
 Vue.use(axios)
 Vue.use(globalComponents) // 初始化全局组件

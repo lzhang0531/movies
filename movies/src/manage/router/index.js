@@ -9,6 +9,7 @@ const { homeName } = config
 
 Vue.use(Router)
 const router = new Router({
+  base: '/dist/',
   routes
 })
 const LOGIN_PAGE_NAME = 'login'

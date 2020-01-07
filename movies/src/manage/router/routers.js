@@ -127,16 +127,16 @@ export default [
     ]
   },
   {
-    path: '/feedback-list',
-    name: 'feedback-list',
+    path: '/feedback_list',
+    name: 'feedback_list',
     meta: {
       hideInBread: true
     },
     component: Main,
     children: [
       {
-        path: 'feedback-list_page',
-        name: 'feedback-list_page',
+        path: 'feedback_list_page',
+        name: 'feedback_list_page',
         meta: {
           icon: 'ios-clipboard',
           title: '意见反馈'

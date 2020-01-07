@@ -12,7 +12,7 @@ const resolve = dir => {
 // 例如：https://www.foobar.com/my-app/
 // 需要将它改为'/my-app/'
 const BASE_URL = process.env.NODE_ENV === 'production'
-  ? './'
+  ? '/dist/'
   : '/'
 
 const pages = {
@@ -24,7 +24,7 @@ const pages = {
       // 编译后在dist目录的输出文件名，可选项，省略时默认与模块名一致
       filename: 'manage.html',
       // 包含的模块，可选项
-      chunks: ['manage'],
+      // chunks: ['manage'],
       publicPath: BASE_URL,
   },
   index: {
@@ -34,7 +34,7 @@ const pages = {
       template: 'public/index.html',
       // 编译后在dist目录的输出文件名，可选项，省略时默认与模块名一致
       filename: 'index.html',
-      chunks: ['index'],
+      // chunks: ['index'],
       publicPath: BASE_URL,
   },
 }

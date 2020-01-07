@@ -1,14 +1,14 @@
 <template>
   <transition name="fade">
     <div class="stopPlay">
-      <i class="iconfont icon-left" @click="hide"/>
+      <!--<i class="iconfont icon-left" @click="hide"/>-->
       <div class="content">
-        <div class="text">开通会员或使用免费次数观看完整版</div>
+        <div class="text">开通会员或使用免费次数观看完整版{{userId}}</div>
         <div class="text-center">
-          <mt-button type="primary" size="small" class="mg-20t" @click="doInviter" style="width: 80%;background-color: #faaf00"> <i class="ui-subscript ui-subscript-red" style="overflow: hidden">推荐</i>开通会员</mt-button>
-          <mt-button v-if="freeTimes > 0" type="primary" size="small" class="mg-20t" @click="doInviter" style="width: 80%">扣除免费次数(剩余{{freeTimes}}次)</mt-button>
-          <mt-button v-else type="primary" size="small" class="mg-20t" @click="doInviter" style="width: 80%;">邀请新用户</mt-button>
-          <div class="tip" v-if="freeTimes === 0">您的免费次数为0次，您可选择邀请新用户填写邀请码获得免费次数</div>
+          <mt-button type="primary" size="small" class="mg-20t" @click="$router.push('/buyMember')" style="width: 80%;background-color: #faaf00"> <i class="ui-subscript ui-subscript-red" style="overflow: hidden">推荐</i>开通会员</mt-button>
+          <mt-button v-if="freeTimes > 0" type="primary" size="small" class="mg-20t" @click="useFree" style="width: 80%">扣除免费次数(剩余{{freeTimes}}次)</mt-button>
+          <mt-button v-else type="primary" size="small" class="mg-20t" @click="useFree" style="width: 80%;">邀请新用户</mt-button>
+          <div class="tip" v-if="freeTimes === 0">您的免费次数为0次，邀请新用户填写邀请码可获得免费次数</div>
         </div>
         <p></p>
       </div>
@@ -25,6 +25,14 @@
       freeTimes: {
         type: Number,
         default:0
+      },
+      videoId: {
+        type: String,
+        default:''
+      },
+      userId: {
+        type: String,
+        default:''
       }
     },
     data () {
@@ -41,33 +49,33 @@
       hide(){
         this.$parent.isShow = false
       },
-      doInviter(){
-        if(this.inviter!=''){
-          console.log(this.appUser)
-          this.$axios.post(`/manage/user/fill-invitation-code`,{
-            inviter:this.inviter,
-            id:this.appUser.userInfo.id
+      useFree(){
+        if(this.userId && this.freeTimes > 0 && this.videoId){
+          this.$axios.put(`/manage/user/use-free-time`,{
+            videoId:this.videoId,
+            id:this.userId
           }).then(res => {
             if (res.res === 0) {
               this.$toast({
-                message: '兑换成功',
+                message: '扣除成功',
                 iconClass: 'icon icon-success'
               });
+              this.$router.back();
             }else {
               this.$toast({
-                message: '兑换失败!'+res.msg,
+                message: '扣除失败!'+res.msg,
                 iconClass: 'icon icon-error'
               });
             }
           }).catch(err=>{
             this.$toast({
-              message: '兑换失败!',
+              message: '查询用户信息失败!',
               iconClass: 'icon icon-error'
             });
           })
         }else {
           this.state = 'error';
-          this.$toast('请先填写邀请码')
+          this.$toast('查询用户信息失败')
         }
 
       }
@@ -86,10 +94,12 @@
   .stopPlay {
     position: fixed;
     top: 0;
-    bottom: 0;
+    height: 210px;
+    /*bottom: 0;*/
     width: 100%;
-    z-index: 1000000000;
-    background: #333333d4;
+    z-index: 100;
+    /*background: #333333d4;*/
+    background: #333;
     color: #fff;
     .icon-left {
       font-size: 25px;
@@ -100,7 +110,7 @@
     }
     .content{
       position: absolute;
-      top:30%;
+      top:50%;
       left:50%;
       width:100%;
       transform:translate(-50%,-50%);

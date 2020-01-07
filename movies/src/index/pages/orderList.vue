@@ -18,6 +18,7 @@
           </div>
         </ScrollView>
         <div v-show="noResult" class="no-result">
+          <img src="~index/common/images/noresult.png" class="img">
           <p class="text">没有相关订单</p>
         </div>
       </div>
@@ -70,6 +71,10 @@
     },
     methods: {
       getOrderList () {
+        if(!this.appUser.userInfo.id){
+          this.count = 0
+          return
+        }
         const params = {
           pageNum: this.page,
           pageSize: 10,
@@ -121,7 +126,7 @@
       right 0
       bottom 0
       left 0
-      background #fff
+      background #f2f2f2
       z-index 10
       .pull-up-wrap
         height 30px

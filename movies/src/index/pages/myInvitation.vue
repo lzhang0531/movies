@@ -56,121 +56,17 @@
 import { mapState,mapActions } from 'vuex'
 
 export default {
-  name: 'User',
+  name: 'Invitation',
   data () {
     return {
-      invitationModal:false,
-      invitationModal2:true,
-    }
-  },
-  computed: {
-    ...mapState([
-      'appUser'
-    ]),
-  },
-  created () {
-    if(!this.appUser.userInfo.userName){
-      this.getUserInfo(this.appUser.deviceId)
+
     }
   },
   methods: {
-    ...mapActions([
-      'getUserInfo'
-    ]),
-    copyInvitationModal(){
- /*     const range = document.createRange();
-      range.selectNode(document.getElementById('invitationCode'));
-      const selection = window.getSelection();
-      if(selection.rangeCount > 0) selection.removeAllRanges();
-      selection.addRange(range);
-      console.log(range)
-      document.execCommand('copy');*/
-   /*   const copy=document.getElementById("invitationCode");
-      copy.select(); // 选择对象
-      document.execCommand("Copy")*/
-      this.invitationModal=false;
-    }
+
   }
 }
 </script>
+<style lang="less">
 
-<style lang="stylus" scoped>
-.user
-  position fixed
-  top 0
-  bottom 0
-  width 100%
-  z-index 10
-  background #fff
-  .userinfo-wrapper
-    display flex
-    justify-content center
-    align-items center
-    height 175px
-    background url('~index/common/images/background.jpg') no-repeat
-    background-size cover
-    .avatar
-      display flex
-      align-items center
-      justify-content center
-      width 67px
-      height 67px
-      background #eee
-      border-radius 50%
-    .info
-      display flex
-      flex-direction column
-      padding-left 10px
-      font-size 13px
-      color #fff
-      .text
-        flex 1
-        line-height 33px
-    .icon-left
-      position absolute
-      top 10px
-      left 10px
-      font-size 25px
-      color #fff
-  .menu-wrapper
-    .menus
-      padding-left 10px
-      .menu-item
-        padding 10px
-        font-size 18px
-        line-height 25px
-        list-style none
-        border-bottom 1px solid #d8d8d8
-        color #333
-        .iconfont
-          vertical-align text-bottom
-          font-size 25px
-          color #999
-          margin-right 8px
-        .icon-email
-          font-weight bold
-        .count
-          float right
-          margin-right 5px
-          color #999
-          font-size 15px
-        .icon-right
-          font-size 20px
-          float right
-  .btn-wrapper
-    padding 20px
-    .logout-btn
-      width 100%
-      height 48px
-      line-height 48px
-      font-size 18px
-      border none
-      border-radius 48px
-      color #fff
-      background-color #f13900
-      outline none
-.fade-enter-active, .fade-leave-active
-  transition all .5s
-.fade-enter, .fade-leave-to
-  transform translateX(100%)
 </style>

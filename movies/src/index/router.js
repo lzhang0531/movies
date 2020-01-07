@@ -5,7 +5,7 @@ import { getCookieUser,setCookieUser } from 'index/common/js/cache'
 Vue.use(VueRouter)
 const router = new VueRouter({
   // mode: 'history',
-  base: process.env.BASE_URL,
+  base: /dist/,
   routes: [
     {
       path: '/',

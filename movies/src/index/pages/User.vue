@@ -7,7 +7,8 @@
         </div>
         <div class="info">
           <div class="mg-5b">
-            <span class="text" v-if="appUser.userInfo.userName" :class="{vip : appUser.userInfo.memberDtos}">{{appUser.userInfo.userName }}</span><span class="buy" @click="$router.push('/buyMember')">购买会员</span>
+            <span class="text" v-if="appUser.userInfo.userName" :class="{vip : appUser.userInfo.memberDtos}">{{appUser.userInfo.userName }}</span>
+            <span class="buy" @click="$router.push('/buyMember')">购买会员</span>
           </div>
           <span>
             <div class="mg-2b" v-for="item in appUser.userInfo.memberDtos">{{areaList[item.areaCode]}}会员: {{ item.memberEndTime.substring(0,10)}}</div>
@@ -29,7 +30,7 @@
             <span class="text">意见反馈</span>
             <i class="iconfont icon-right" />
           </li>
-          <li class="menu-item"  @click="showInvitationModal">
+          <li class="menu-item" @click="showInvitationModal">
             <i class="iconfont icon-share"/>
             <span class="text">推荐有奖</span>
             <i class="iconfont icon-right"/>

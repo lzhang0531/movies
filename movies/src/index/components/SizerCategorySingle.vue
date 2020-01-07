@@ -23,7 +23,7 @@ export default {
   },
   props: {
     categoryCode: {
-      type: String,
+      type: [String,Number],
       required: true
     }
   },
@@ -65,6 +65,7 @@ export default {
 <style lang="stylus" scoped>
 .category-wrapper
   padding 10px 25px
+  border-radius 0 2px 2px 0
   .list
     display flex
     flex-wrap wrap
@@ -76,9 +77,9 @@ export default {
       color #777
       border 1px solid #ccc
       &.active
-        border-color #faaf00
-        background #faaf00
-        color #fff
+        border-color: #e8931b;
+        color: #e8931b;
+        background-color: #f3bc4a38;
   .confirm-btn
     width 60px
     height 30px
