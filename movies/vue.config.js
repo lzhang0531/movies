@@ -12,7 +12,7 @@ const resolve = dir => {
 // 例如：https://www.foobar.com/my-app/
 // 需要将它改为'/my-app/'
 const BASE_URL = process.env.NODE_ENV === 'production'
-  ? '/dist/'
+  ? './'
   : '/'
 
 const pages = {
@@ -62,10 +62,10 @@ module.exports = {
   configureWebpack: config => {
     config.externals = {
       // 格式为 '资源的名字' : '给外部引用的名字',
-      vue: 'Vue',
-      'vue-router': 'VueRouter',
-      axios: 'axios',
-      vuex: 'Vuex',
+      // vue: 'Vue',
+      // 'vue-router': 'VueRouter',
+      // axios: 'axios',
+      // vuex: 'Vuex',
       dplayer: 'Dplayer'
     }
   },

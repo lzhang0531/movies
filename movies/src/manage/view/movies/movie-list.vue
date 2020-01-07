@@ -42,7 +42,7 @@
   import { areaList } from '@/libs/areaList'
   import MovieEdit from './movie-edit'
   const modalDataRest = {
-    payFlag:true,
+    payFlag:'true',
     videoPath:'',
     thumbnailPath:'',
     introduction:'',

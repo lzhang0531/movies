@@ -20,8 +20,8 @@
     </FormItem>
     <FormItem label="是否付费" prop="payFlag">
       <RadioGroup v-model="formValidate.payFlag">
-        <Radio :label='true'>是</Radio>
-        <Radio :label='false'>否</Radio>
+        <Radio label='true'>是</Radio>
+        <Radio label='false'>否</Radio>
       </RadioGroup>
     </FormItem>
     <FormItem label="缩略图" prop="thumbnailPath">
@@ -37,7 +37,6 @@
         ref="upload"
         :show-upload-list="false"
         :on-success="handlePicSuccess"
-        :accept="['jpg','jpeg','png']"
         :format="['jpg','jpeg','png']"
         :max-size="2048"
         :on-format-error="handleFormatError"
@@ -60,7 +59,6 @@
         }]: []"
         ref="video"
         :on-success="handleVideoSuccess"
-        :accept="['MPEG','MPG','AVI','MOV','DAT','RM','MP4']"
         :format="['MPEG','MPG','AVI','MOV','DAT','RM','MP4']"
         :on-format-error="handleFormatError"
         :before-upload="handleBeforeVideoUpload"
@@ -82,11 +80,11 @@
     name: 'MovieEdit',
     props: {
       categoryList: {
-        type: [Object],
+        type: Array,
         default: [],
       },
       value: {
-        type: [Object],
+        type: Object,
         default () {
           return {
             'payFlag': 1,
@@ -123,7 +121,7 @@
             {required: true, message: '请选择地区', trigger: 'change'},
           ],
           payFlag: [
-            {required: true, message: '请选择是否付费', type: 'boolean', trigger: 'change'},
+            {required: true, message: '请选择是否付费', trigger: 'change'},
           ],
           categoryCode: [
             {required: true, type: 'number', message: '请选择类型', trigger: 'blur'},

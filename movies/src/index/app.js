@@ -5,6 +5,9 @@ import axios from 'index/common/js/axios'
 import store from 'index/store'
 import VueLazyload from 'vue-lazyload'
 import globalComponents from 'index/common/js/components'
+import MintUI from 'mint-ui'
+import 'mint-ui/lib/style.css'
+Vue.use(MintUI)
 
 import 'index/common/styles/reset.styl'
 

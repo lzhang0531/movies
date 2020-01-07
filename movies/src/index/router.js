@@ -1,6 +1,8 @@
+import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from 'index/store'
 import { getCookieUser,setCookieUser } from 'index/common/js/cache'
+Vue.use(VueRouter)
 const router = new VueRouter({
   // mode: 'history',
   base: process.env.BASE_URL,
