@@ -29,15 +29,14 @@ export default [
   },
   {
     path: '/',
-    redirect: '/statistics/newUser_list_page',
+    name: '_home',
+    redirect: '/home',
     component: Main,
-    title: '首页',
     meta: {
-      hideInBread: true,
       hideInMenu: true,
       notCache: true
     },
-/*    children: [
+    children: [
       {
         path: '/home',
         name: 'home',
@@ -47,9 +46,9 @@ export default [
           notCache: true,
           icon: 'md-home'
         },
-        component: () => import('@/view/single-page/home')
+        component: () => import('@/view/user/newUser-list.vue')
       }
-    ]*/
+    ]
   },
   {
     path: '/movie_type',

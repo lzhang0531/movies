@@ -30,7 +30,7 @@ export default {
   data () {
     return {
       list: [],
-      cacheList: []
+      checkedCategoryCode: ''
     }
   },
   created () {
@@ -47,19 +47,16 @@ export default {
     resetCache () {
       this.cacheList = [this.categoryCode].slice()
     },
-    selectItem (name) {
-      const arr = this.cacheList.slice()
-      const idx = arr.indexOf(name)
-      if (idx > -1) {
-        arr.splice(idx, 1)
-      } else {
-        arr.push(name)
+    selectItem (code) {
+      if(this.checkedCategoryCode === code){
+        this.checkedCategoryCode = ''
+      }else {
+        this.checkedCategoryCode = code;
       }
-      this.cacheList = arr
-      this.confirm(true)
+      this.confirm()
     },
     confirm () {
-      this.$emit('change', this.cacheList.join(''))
+      this.$emit('change', this.checkedCategoryCode)
     }
   }
 }

@@ -4,6 +4,17 @@ const resolve = dir => {
   return path.join(__dirname, dir)
 }
 
+// 项目部署基础
+// 默认情况下，我们假设你的应用将被部署在域的根目录下,
+// 例如：https://www.my-app.com/
+// 默认：'/'
+// 如果您的应用程序部署在子路径中，则需要在这指定子路径
+// 例如：https://www.foobar.com/my-app/
+// 需要将它改为'/my-app/'
+const BASE_URL = process.env.NODE_ENV === 'production'
+  ? '/dist/'
+  : '/'
+
 const pages = {
   manage: {
     // 应用入口配置，相当于单页面应用的main.js，必需项
@@ -13,7 +24,8 @@ const pages = {
       // 编译后在dist目录的输出文件名，可选项，省略时默认与模块名一致
       filename: 'manage.html',
       // 包含的模块，可选项
-      chunks: ['manage']
+      chunks: ['manage'],
+      publicPath: BASE_URL,
   },
   index: {
     // 应用入口配置，相当于单页面应用的main.js，必需项
@@ -22,19 +34,10 @@ const pages = {
       template: 'public/index.html',
       // 编译后在dist目录的输出文件名，可选项，省略时默认与模块名一致
       filename: 'index.html',
-      publicPath :'/'
+      chunks: ['index'],
+      publicPath: BASE_URL,
   },
 }
-// 项目部署基础
-// 默认情况下，我们假设你的应用将被部署在域的根目录下,
-// 例如：https://www.my-app.com/
-// 默认：'/'
-// 如果您的应用程序部署在子路径中，则需要在这指定子路径
-// 例如：https://www.foobar.com/my-app/
-// 需要将它改为'/my-app/'
-const BASE_URL = process.env.NODE_ENV === 'production'
-  ? '/'
-  : '/'
 
 module.exports = {
   pages,
@@ -55,7 +58,6 @@ module.exports = {
       .set('@', resolve('src/manage')) // key,value自行定义，比如.set('@@', resolve('src/components'))
       .set('_c', resolve('src/manage/components'))
       .set('index', resolve('src/index'))
-      .set('manage', resolve('src/views/manage'))
   },
   configureWebpack: config => {
     config.externals = {
@@ -76,9 +78,6 @@ module.exports = {
       errors: false
     },
     proxy: {
-      '/api': {
-        target: 'http://movie.ihaoze.cn/'
-      },
       '/manage': {
         target: 'http://47.111.232.212:9090',
         changeOrigin: true,  //是否跨域
@@ -86,12 +85,9 @@ module.exports = {
           '^/manage':''
         }
       },
-      '/file': {     //这里最好有一个 /
+      '/file': {
         target: 'http://47.111.232.212',  // 后台接口域名
         changeOrigin: true,  //是否跨域
-      },
-      '/mock': {
-        target: 'https://www.easy-mock.com/mock/5add9213ce4d0e69998a6f51/iview-admin/'
       }
     }
   }

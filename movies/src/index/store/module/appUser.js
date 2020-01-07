@@ -33,13 +33,44 @@ const appUser = {
   actions:{
     getDeviceId  ({ state, commit }) {
       return new Promise((resolve, reject) => {
-        const deviceId = '123456'
-        commit('setDeviceId', deviceId)
-        dispatch('getUserInfo',deviceId)
+        var deviceId = ''
+//注册事件监听
+        function connectWebViewJavascriptBridge(callback) {
+          if (window.WebViewJavascriptBridge) {
+            callback(WebViewJavascriptBridge)
+          } else {
+            document.addEventListener(
+              'WebViewJavascriptBridgeReady'
+              , function() {
+                callback(WebViewJavascriptBridge)
+              },
+              false
+            );
+          }
+        }
+//注册回调函数，第一次连接时调用 初始化函数
+        connectWebViewJavascriptBridge(function(bridge) {
+          bridge.init(function(message, responseCallback) {
+            console.log('JS got a message',message);
+            var data = {
+              'Javascript Responds': 'Wee!'
+            };
+            console.log('JS responding with', data);
+            responseCallback(data);
+          });
+
+          bridge.registerHandler("getDeviceId", function(data, responseCallback) {
+            const deviceId = data
+            commit('setDeviceId', deviceId)
+            dispatch('getUserInfo',deviceId)
+            var responseData = "Javascript Says Right back aka!";
+            responseCallback(responseData);
+          });
+        })
       })
     },
     getUserInfo({ commit }, deviceId){
-      return new Promise((resolve, reject) => {
+      return !deviceId ? '' : new Promise((resolve, reject) => {
         axios.get('/manage/user/get-by-device-id',{params:{'deviceId':deviceId}}).then(res => {
           res = res.data
           if (res.res === 0) {

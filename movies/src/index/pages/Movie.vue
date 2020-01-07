@@ -26,50 +26,123 @@
             </div>
           </div>
       </div>
+      <StopPlay :freeTimes="freeTimes"  v-show="isShow"/>
     </div>
   </Transition>
 </template>
-
 <script>
+  import StopPlay from 'index/components/StopPlay'
+  import { mapState,mapActions } from 'vuex'
 
-export default {
-  name: 'Movie',
-  data () {
-    return {
-      movie: {},
-      isShow: false
-    }
-  },
-  beforeRouteUpdate  (to, from, next) {
-    next()
-    this.getDetail()
-  },
-  created () {
-    this.getDetail()
-  },
-  methods: {
-    getDetail () {
-      const { id } = this.$route.params
-      this.$axios.get(`/manage/video/${id}`).then(res => {
-        if (res.res === 0) {
-          this.movie = res.data
-          this.initPlayer()
-        }
+  export default {
+    name: 'Movie',
+    data () {
+      return {
+        movie: {},
+        isShow: false,
+        canplayFlag:false,
+        freeTimes:0
+      }
+    },
+    components: {
+      StopPlay
+    },
+    computed: {
+      ...mapState([
+        'appUser'
+      ]),
+    },
+    beforeRouteUpdate  (to, from, next) {
+      next()
+      this.getDetail()
+    },
+    beforeRouteEnter(to, from, next){
+      next((vm)=>{
+        vm.judgePlay()
       })
     },
-    initPlayer () {
-      const { DPlayer } = window
-      this.player = new DPlayer({
-        container: this.$refs.player,
-        video: {
-          url: '/file/'+this.movie.videoPath,
-          pic: '/file/'+this.movie.thumbnailPath
+    created () {
+      this.getDetail()
+    },
+    methods: {
+      getDetail () {
+        const { id } = this.$route.params
+        this.$axios.get(`/manage/video/${id}`).then(res => {
+          if (res.res === 0) {
+            this.movie = res.data
+            this.initPlayer()
+          }
+        })
+      },
+      judgePlay () {
+        console.log(this.canplayFlag)
+        if(!this.appUser.deviceId || !this.appUser.userInfo.id){
+          this.canplayFlag = false;
+        }else {
+          this.$axios.put(`/manage/user/judge-play`,{
+            videoId:this.$route.params.id,
+            id:this.appUser.userInfo.id
+          }).then(res => {
+            if (res.res === 0) {
+              this.canplayFlag = res.data.memberFlag || res.data.userTimeFlag;
+              this.freeTimes = res.data.freeTimes;
+            }else {
+              this.canplayFlag = false;
+              this.freeTimes = 0;
+            }
+          })
         }
-      })
+      },
+      initPlayer () {
+        const { DPlayer } = window
+        this.player = new DPlayer({
+          container: this.$refs.player,
+          video: {
+            url: '/file/'+this.movie.videoPath,
+            pic: '/file/'+this.movie.thumbnailPath
+          }
+        })
+        if(!this.canplayFlag){
+          this.player.on('timeupdate',(a)=>{
+            if(this.player.video.currentTime > 10){
+              this.player.pause();
+              // this.player.seek(30);
+              const isFull = document.fullscreenEnabled || window.fullScreen || document.webkitIsFullScreen || document.msFullscreenEnabled;
+              console.log(isFull)
+              var de = document;
+              if (de.exitFullscreen) {
+                //W3C
+                de.exitFullscreen();
+              }else if(de.mozCancelFullScreen){
+                //FIREFOX
+                de.mozCancelFullScreen();
+              }else if(de.webkitCancelFullScreen){
+                //CHROME
+                de.webkitCancelFullScreen();
+              }else if(de.msExitFullscreen){
+                //MSIE
+                de.msExitFullscreen();
+              }else if(de.oRequestFullscreen){
+                de.oCancelFullScreen();
+              }else{
+                var docHtml = document.documentElement;
+                var docBody = document.body;
+                var videobox = document.getElementById('playerBox');
+                docHtml.style.cssText = "";
+                docBody.style.cssText = "";
+                videobox.style.cssText = "";
+                document.IsFullScreen = false;
+              }
+              this.player.fullScreen.cancel();
+              this.isShow = true;
+            }
+          })
+        }
+      }
     }
   }
-}
 </script>
+
 
 <style lang="stylus" scoped>
 .movie

@@ -26,7 +26,6 @@
       </div>
       <div class="content-wrapper">
         <ScrollView :data="movieList" :pull-up-load="true" @pulling-up="loadMore">
-
           <div
             class="movie-wrapper"
             v-for="movie in movieList"
@@ -34,7 +33,7 @@
             :movie="movie"
             @click="gotoDetail(movie.id)"
           >
-            <img :src="`/file/${movie.thumbnailPath}`" height="210px" >
+            <img :src="`/file/${movie.thumbnailPath}`" height="210px" width="100%" >
             <div class="title">{{movie.name}}</div>
           </div>
           <div class="pull-up-wrap">
@@ -161,11 +160,16 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+  $theme-color = #1c2635
+  $gray = #bbb
   .movie-wrapper
-    padding 10px 20px
+    padding 10px 10px
     box-sizing: border-box
     border-bottom: 1px solid #e6e6e6
     text-align:center
+    background-color #fff
+    border-radius 5px
+    margin: 0 5px 10px;
     .title
       text-align:left
       color: #333
@@ -225,7 +229,7 @@ export default {
   right 0
   bottom 56px
   left 0
-  background #fff
+  /*background #fff*/
   z-index 10
   .content-wrapper
     position absolute
